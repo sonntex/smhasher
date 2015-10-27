@@ -1,0 +1,9 @@
+[submodule "fsbench-density"]
+	path = fsbench-density
+	url = https://github.com/gpnuma/fsbench-density.git
+[submodule "crcutil"]
+	path = crcutil
+	url = https://github.com/rurban/crcutil.git
+[submodule "zlib"]
+	path = zlib
+	url = https://github.com/cloudflare/zlib.git
