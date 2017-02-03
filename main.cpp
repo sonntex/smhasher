@@ -175,6 +175,7 @@ HashInfo g_hashes[] =
   { halfsiphash_test,     32, 0xA7A05F72, "HalfSipHash", "HalfSipHash 2-4, 32bit", POOR },
   // as in rust and swift
   { siphash13_test,       64, 0x29C010BF, "SipHash13",   "SipHash 1-3 - SSSE3 optimized", POOR },
+  { chaskey_test,         32, 0x81AEBEE6, "chaskey",     "mouha.be/chaskey/", POOR },
 
   // and now the quality hash funcs
   { siphash_test,         64, 0xC58D7F9C, "SipHash",     "SipHash 2-4 - SSSE3 optimized", GOOD },
@@ -338,6 +339,8 @@ void test ( hashfunc<hashtype> hash, HashInfo* info )
   if(info->hash == HighwayHash64_test)
     HighwayHash_init();
 #endif
+  if(info->hash == chaskey_test)
+    chaskey_init();
 
   //-----------------------------------------------------------------------------
   // Sanity tests

@@ -609,6 +609,12 @@ halfsiphash_test(const void *input, int len, uint32_t seed, void *out)
   *(uint32_t *) out = halfsiphash(key, (const unsigned char *)input, (size_t) len);
 }
 
+void
+chaskey_test(const void *input, int len, uint32_t seed, void *out)
+{
+  chaskey_c(input, len, seed, out);
+}
+
 /* https://github.com/gamozolabs/falkhash */
 #if defined(__SSE4_2__) && defined(__x86_64__)
 extern "C" {
