@@ -5,6 +5,7 @@
 #include "AvalancheTest.h"
 #include "DifferentialTest.h"
 #include "HashMapTest.h"
+#include "LongNeighborTest.h"
 
 #include <stdio.h>
 #include <stdint.h>
@@ -27,7 +28,7 @@ bool g_testWindow      = false;
 bool g_testCyclic      = false;
 bool g_testTwoBytes    = false;
 bool g_testMomentChi2  = false;
-//bool g_testLongNeighbors = false;
+bool g_testLongNeighbors = false;
 bool g_testText        = false;
 bool g_testZeroes      = false;
 bool g_testSeed        = false;
@@ -53,7 +54,7 @@ TestOpts g_testopts[] =
   { g_testCyclic,	"Cyclic" },
   { g_testTwoBytes,	"TwoBytes" },
   { g_testMomentChi2,   "MomentChi2" },
-  //{ g_testLongNeighbors,"LongNeighbors" },
+  { g_testLongNeighbors,"LongNeighbors" },
   { g_testText,		"Text" },
   { g_testZeroes,	"Zeroes" },
   { g_testSeed,		"Seed" },
@@ -991,21 +992,19 @@ void test ( hashfunc<hashtype> hash, HashInfo* info )
   // 7m with xxh3 (64bit)
   // 10m30s with farmhash128_c
 
-  // Not yet included for licensing reasons
-#if 0
+  // Not yet merged for licensing reasons
   if(g_testLongNeighbors || (g_testAll && g_testExtra))
   {
     printf("[[[ 'LongNeighbors' Tests ]]]\n\n");
 
     bool result = true;
 
-    result &= testLongNeighbors(info->hash, info->hashbits, g_drawDiagram);
+    result &= testLongNeighbors(info->hash, info->hashbits);
 
     if(!result) printf("*********FAIL*********\n");
     printf("\n");
     fflush(NULL);
   }
-#endif
 
   //-----------------------------------------------------------------------------
   // Keyset 'Text'
