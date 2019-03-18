@@ -999,7 +999,7 @@ void test ( hashfunc<hashtype> hash, HashInfo* info )
 
     bool result = true;
 
-    result &= testLongNeighbors(info->hash, info->hashbits);
+    result &= testLongNeighbors(info->hash, info->hashbits, g_drawDiagram);
 
     if(!result) printf("*********FAIL*********\n");
     printf("\n");
