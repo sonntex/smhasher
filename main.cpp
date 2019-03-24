@@ -178,8 +178,8 @@ HashInfo g_hashes[] =
 
   // and now the quality hash funcs
   { siphash_test,         64, 0xC58D7F9C, "SipHash",     "SipHash 2-4 - SSSE3 optimized", GOOD },
-#ifdef HAVE_HIGHWAYHASH
-  { HighwayHash64_test,   64, 0x53BE18F1, "HighwayHash64", "Google HighwayHash (portable with overhead from the lib)", GOOD },
+#if defined(__SSE4_2__) && defined(__x86_64__)
+  { HighwayHash64,        64, 0x7B14EEE5, "HighwayHash64", "Google HighwayHash SSE4.1", GOOD },
 #endif
   { GoodOAAT,             32, 0x7B14EEE5, "GoodOAAT",    "Small non-multiplicative OAAT", GOOD },
   { PMurHash32_test,      32, 0xB0F57EE3, "PMurHash32",  "Shane Day's portable-ized MurmurHash3 for x86, 32-bit", GOOD },
@@ -299,8 +299,34 @@ void SelfTest ( void )
   {
     HashInfo * info = & g_hashes[i];
 
+<<<<<<< HEAD
     pass &= VerificationTest(info->hash,info->hashbits,info->verification,
                              false);
+||||||| merged common ancestors
+#if defined(__SSE4_2__) && defined(__x86_64__)
+  if(info->hash == clhash_test)
+    clhash_init();
+#endif
+#ifdef HAVE_HIGHWAYHASH
+  if(info->hash == HighwayHash64_test)
+    HighwayHash_init();
+#endif
+
+    pass &= VerificationTest(info->hash,info->hashbits,info->verification,false);
+=======
+#if defined(__SSE4_2__) && defined(__x86_64__)
+  if(info->hash == clhash_test)
+    clhash_init();
+  if(info->hash == HighwayHash64)
+    HighwayHash_init();
+#endif
+#ifdef HAVE_HIGHWAYHASH
+  if(info->hash == HighwayHash64_test)
+    HighwayHash_init();
+#endif
+
+    pass &= VerificationTest(info->hash,info->hashbits,info->verification,false);
+>>>>>>> WIP add HighwayHash
   }
 
   if(!pass)
@@ -333,6 +359,8 @@ void test ( hashfunc<hashtype> hash, HashInfo* info )
 #if defined(__SSE4_2__) && defined(__x86_64__)
   if(info->hash == clhash_test)
     clhash_init();
+  if(info->hash == HighwayHash64)
+    HighwayHash_init();
 #endif
 #ifdef HAVE_HIGHWAYHASH
   if(info->hash == HighwayHash64_test)
