@@ -87,6 +87,8 @@ if (CMAKE_COMPILER_IS_GNUCC
   set(CMAKE_CXX_FLAGS_RELEASE "-O3")
   set(CMAKE_C_FLAGS_DEBUG "-g")
   set(CMAKE_CXX_FLAGS_DEBUG "-g")
+  set (CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=address,undefined")
+  set (CMAKE_LINKER_FLAGS_DEBUG "${CMAKE_LINKER_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=address,undefined")
   #IF (SSE2_TRUE)
   #  set(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS} -msse2")
   #  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -msse2")
