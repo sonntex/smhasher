@@ -117,7 +117,9 @@ HashInfo g_hashes[] =
   { blake2b160_test,     160, 0xA5F72E2D, "blake2b-160",  "blake2b-160", POOR },
   { sha3_256,            256, 0xB85F6DD9, "sha3-256",     "SHA3-256", POOR },
   { sha3_256_64,          64, 0x86EC71EF, "sha3-256_64",  "SHA3-256, low 64 bits", POOR },
-
+#if defined(HAVE_AESNI) && !defined(_MSC_VER)
+  { aesni_cbc_sha1_avx,  160, 0, "aesni_cbc_sha1_avx",    "OpenSSL aesni_cbc_sha1_avx", POOR },
+#endif
 #ifdef __SSE2__
   { hasshe2_test,        256, 0xF5D39DFE, "hasshe2",     "SSE2 hasshe2, 256-bit", POOR },
 #endif

@@ -18,6 +18,7 @@
 #include "fasthash.h"
 #include "jody_hash32.h"
 #include "jody_hash64.h"
+#include "sha1.h"
 
 //----------
 // These are _not_ hash functions (even though people tend to use crc32 as one...)
@@ -566,3 +567,24 @@ inline void sha3_256(const void *key, int len, uint32_t seed, void *out)
   sha3_process(&ltc_state, (unsigned char *)key, len);
   sha3_done(&ltc_state, (unsigned char *)out);
 }
+
+#if defined(HAVE_AESNI) && !defined(_MSC_VER)
+typedef struct aes_key_st {
+    unsigned long rd_key[4 * 15];
+    int rounds;
+} AES_KEY;
+extern "C" void aesni_cbc_sha1_enc_avx(const void *inp, void *out, size_t blocks,
+                                       const AES_KEY *key, unsigned char iv[16],
+                                       SHA1_CTX *ctx, const void *in0);
+inline void aesni_cbc_sha1_avx(const void *key, int len, uint32_t seed, void *out)
+{
+  SHA1_CTX context;
+  AES_KEY aes_key;
+  //uint8_t digest[20];
+  unsigned char ivec[16];
+  SHA1_Init(&context);
+  context.state[0] ^= seed;
+  memset(ivec,0,sizeof(ivec));
+  aesni_cbc_sha1_enc_avx(key, out, len, &aes_key, ivec, &context, NULL);
+}
+#endif
